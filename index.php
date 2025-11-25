@@ -394,79 +394,173 @@
 
 
 <!-- ==================== ACHIEVEMENTS ==================== -->
-<section class="py-5" style="background:#f9fafc;">
+<section class="py-5" style="background:#f5f7fa;">
   <div class="container">
-    <h2 class="text-center fw-bold mb-5">Our Milestones</h2>
+
+    <h2 class="text-center fw-bold mb-5" style="font-size:2rem; letter-spacing:0.5px;">
+      Our Milestones
+    </h2>
 
     <div class="row text-center g-4">
 
       <div class="col-md-3">
-        <div class="shadow p-4 bg-white rounded-3">
-          <h3 class="fw-bold">300+</h3>
-          <p class="text-muted">Cars Available</p>
+        <div class="milestone-card">
+          <h3 class="number">300+</h3>
+          <p class="label">Cars Available</p>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="shadow p-4 bg-white rounded-3">
-          <h3 class="fw-bold">10,000+</h3>
-          <p class="text-muted">Happy Customers</p>
+        <div class="milestone-card">
+          <h3 class="number">10,000+</h3>
+          <p class="label">Happy Customers</p>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="shadow p-4 bg-white rounded-3">
-          <h3 class="fw-bold">4.9/5</h3>
-          <p class="text-muted">Average Rating</p>
+        <div class="milestone-card">
+          <h3 class="number">4.9/5</h3>
+          <p class="label">Average Rating</p>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="shadow p-4 bg-white rounded-3">
-          <h3 class="fw-bold">5+ Years</h3>
-          <p class="text-muted">Service Experience</p>
+        <div class="milestone-card">
+          <h3 class="number">5+ Years</h3>
+          <p class="label">Service Experience</p>
         </div>
       </div>
 
     </div>
+
   </div>
 </section>
 
+<style>
+.milestone-card {
+  background: #ffffff;
+  padding: 30px 20px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid #e8ecf2;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+}
 
-<!-- ==================== PARTNER BRANDS ==================== -->
-<section class="py-5">
+.milestone-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.08);
+}
+
+.milestone-card .number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a2a3a;
+  margin-bottom: 8px;
+}
+
+.milestone-card .label {
+  font-size: 0.95rem;
+  color: #6c7a89;
+  margin: 0;
+}
+</style>
+
+
+
+<!-- ==================== PARTNER BRANDS (SIMPLE & MODERN) ==================== -->
+<section class="py-5" style="background:#f8fafc;">
   <div class="container">
     <h2 class="text-center fw-bold mb-4">Our Trusted Partners</h2>
 
-    <div class="row text-center g-4">
+    <div class="row text-center g-4 justify-content-center">
 
       <div class="col-md-2 col-6">
-        <img src="assets/brands/toyota.png" class="img-fluid" style="max-height:60px;">
+        <div class="simple-brand">
+          <img src="assets/images/toyota.jpg" class="simple-logo">
+          <p class="simple-name">Toyota</p>
+        </div>
       </div>
 
       <div class="col-md-2 col-6">
-        <img src="assets/brands/hyundai.png" class="img-fluid" style="max-height:60px;">
+        <div class="simple-brand">
+          <img src="assets/images/hundai.jpg" class="simple-logo">
+          <p class="simple-name">Hyundai</p>
+        </div>
       </div>
 
       <div class="col-md-2 col-6">
-        <img src="assets/brands/honda.png" class="img-fluid" style="max-height:60px;">
+        <div class="simple-brand">
+          <img src="assets/images/honda.jpg" class="simple-logo">
+          <p class="simple-name">Honda</p>
+        </div>
       </div>
 
       <div class="col-md-2 col-6">
-        <img src="assets/brands/bmw.png" class="img-fluid" style="max-height:60px;">
+        <div class="simple-brand">
+          <img src="assets/images/bmw.jpg" class="simple-logo">
+          <p class="simple-name">BMW</p>
+        </div>
       </div>
 
       <div class="col-md-2 col-6">
-        <img src="assets/brands/audi.png" class="img-fluid" style="max-height:60px;">
+        <div class="simple-brand">
+          <img src="assets/images/audi.jpg" class="simple-logo">
+          <p class="simple-name">Audi</p>
+        </div>
       </div>
 
       <div class="col-md-2 col-6">
-        <img src="assets/brands/suzuki.png" class="img-fluid" style="max-height:60px;">
+        <div class="simple-brand">
+          <img src="assets/images/suzuki.jpg" class="simple-logo">
+          <p class="simple-name">Suzuki</p>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
+
+<style>
+.simple-brand {
+  background: #ffffff;
+  padding: 18px 10px;
+  border-radius: 12px;
+  border: 1px solid #e6e9ee;
+  transition: 0.3s ease;
+}
+
+.simple-brand:hover {
+  border-color: #4a6cf7;
+  transform: translateY(-4px);
+}
+
+/* Logo */
+.simple-logo {
+  max-height: 55px;
+  margin-bottom: 6px;
+  opacity: 0.8;
+  transition: 0.3s ease;
+}
+
+.simple-brand:hover .simple-logo {
+  opacity: 1;
+}
+
+/* Name */
+.simple-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2d3a4b;
+  transition: 0.3s ease;
+}
+
+.simple-brand:hover .simple-name {
+  color: #4a6cf7;
+}
+</style>
+
+
 
 
 

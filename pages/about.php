@@ -258,7 +258,6 @@ include '../include/header.php';
                      style="border: 1px solid #e2e8f0; transition: 0.3s;">
                     
                     <ul class="list-unstyled m-0">
-Ami barnali
                         <li class="d-flex align-items-start mb-4">
                             <span class="me-3 fs-4" style="
                                 color: #2563eb; 
