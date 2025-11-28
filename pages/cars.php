@@ -1,20 +1,108 @@
 <?php
-include '../include/header.php';
+
 include '../include/db.php';
+// ADD NEW CAR
+// =========================
+if (isset($_POST['save'])) {
+
+    $name = $_POST['name'];
+    $model = $_POST['model'];
+    $price = $_POST['price'];
+    $fuel = $_POST['fuel'];
+    $transmission = $_POST['transmission'];
+    $seats = $_POST['seats'];
+    $status = $_POST['status'];
+    $rating = $_POST['rating'];
+    $tag = $_POST['tag'];
+    $image = $_POST['image'];
+
+    $query = "INSERT INTO cars (name, model, price, fuel, transmission, seats, status, rating, tag, image)
+              VALUES ('$name', '$model', '$price', '$fuel', '$transmission', '$seats', '$status', '$rating', '$tag', '$image')";
+
+    if (mysqli_query($conn, $query)) {
+        header("Location: cars.php?added=1");
+        exit();
+    } else {
+        header("Location: cars.php?added=0");
+        exit();
+    }
+}
+
 
 // DELETE CAR
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     mysqli_query($conn, "DELETE FROM cars WHERE id='$id'");
     echo "<script>alert('Car deleted successfully!'); window.location='cars.php';</script>";
+    exit();
 }
+
+// UPDATE CAR
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $model = $_POST['model'];
+    $price = $_POST['price'];
+    $fuel = $_POST['fuel'];
+    $transmission = $_POST['transmission'];
+    $seats = $_POST['seats'];
+    $status = $_POST['status'];
+    $rating = $_POST['rating'];
+    $tag = $_POST['tag'];
+    $image = $_POST['image'];
+
+    $query = "UPDATE cars SET 
+                name='$name',
+                model='$model',
+                price='$price',
+                fuel='$fuel',
+                transmission='$transmission',
+                seats='$seats',
+                status='$status',
+                rating='$rating',
+                tag='$tag',
+                image='$image'
+              WHERE id='$id'";
+
+    if (mysqli_query($conn, $query)) {
+        header("Location: cars.php?updated=1");
+        exit();
+    } else {
+        header("Location: cars.php?updated=0");
+        exit();
+    }
+}
+
+
 
 // FETCH ALL CARS
 $result = mysqli_query($conn, "SELECT * FROM cars ORDER BY id DESC");
+include '../include/header.php';
 ?>
 
 <div class="container mt-4">
     <h3 class="mb-3">Manage Cars</h3>
+    <?php if(isset($_GET['added']) && $_GET['added'] == 1): ?>
+        <div class="alert alert-success">New car added successfully!</div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET['added']) && $_GET['added'] == 0): ?>
+        <div class="alert alert-danger">Failed to add new car!</div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Car updated successfully!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET['updated']) && $_GET['updated'] == 0): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Update failed! Please try again.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
 
     <!-- Add Car Button -->
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCarModal" >
@@ -52,7 +140,8 @@ $result = mysqli_query($conn, "SELECT * FROM cars ORDER BY id DESC");
               <div class="modal-dialog">
                 <div class="modal-content">
 
-                  <form method="POST" action="update-car.php?id=<?= $car['id'] ?>">
+                  <form method="POST" action="cars.php">
+                    <input type="hidden" name="id" value="<?= $car['id'] ?>">
                     <div class="modal-header">
                       <h5 class="modal-title">Edit <?= $car['name'] ?></h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -92,7 +181,7 @@ $result = mysqli_query($conn, "SELECT * FROM cars ORDER BY id DESC");
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <form method="POST" action="insert-car.php">
+      <form method="POST" action="cars.php">
         <div class="modal-header">
           <h5 class="modal-title">Add New Car</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

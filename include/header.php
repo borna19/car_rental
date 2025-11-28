@@ -1,6 +1,6 @@
 <?php
-if(session_status() == PHP_SESSION_NONE){
-    session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
 }
 include __DIR__ . '/db.php'; // FIXED PATH
 $current_page = basename($_SERVER['PHP_SELF']);
@@ -52,6 +52,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
   }
   ?>
 
+  <?php if (isset($_SESSION['user_id'])): ?>
+
+    <?php if ($_SESSION['role'] === 'Admin'): ?>
+      <li class="nav-item">
+        <a class="nav-link text-warning fw-bold mx-2" href="/car_rental/pages/dashboard.php">
+          Admin Panel
+        </a>
+      </li>
+    <?php endif; ?>
+
+  <?php endif; ?>
+
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
     <div class="container">
@@ -69,9 +82,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
           <li class="nav-item"><a class="nav-link text-white fw-semibold mx-2" href="/car_rental/index.php">Home</a></li>
           <li class="nav-item"><a class="nav-link text-white fw-semibold mx-2" href="/car_rental/pages/about.php">About</a></li>
           <li class="nav-item"><a class="nav-link text-white fw-semibold mx-2" href="/car_rental/pages/cars.php">Cars</a></li>
-          <li class="nav-item"><a class="nav-link text-white fw-semibold mx-2" href="/car_rental/pages/bookings.php">Bookings</a></li>
+          <?php if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin'): ?>
+            <li class="nav-item">
+              <a class="nav-link text-white fw-semibold mx-2" href="/car_rental/pages/bookings.php">Bookings</a>
+            </li>
+          <?php endif; ?>
+
           <li class="nav-item"><a class="nav-link text-white fw-semibold mx-2" href="/car_rental/pages/contact.php">Contact</a></li>
 
+          <?php if (isset($_SESSION['user_id']) && strtolower($_SESSION['role']) === 'customer'): ?>
+            <li class="nav-item">
+              <a class="nav-link text-white fw-semibold mx-2" href="/car_rental/pages/feedback.php">Feedback</a>
+            </li>
+          <?php endif; ?>
 
           <?php if (isset($_SESSION['user_id'])): ?>
 
