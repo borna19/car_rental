@@ -23,7 +23,7 @@ if (isset($_POST['login'])) {
             $_SESSION['role'] = $user['role']; // Admin or Customer
 
             // ------- CHECK ROLE -------
-            if ($user['role'] === "Admin") {
+            if ($user['role'] === "admin") {
                 header("Location: ../pages/dashboard.php");
             } else {
                 header("Location: ../index.php"); // Customer homepage
