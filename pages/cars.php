@@ -1,10 +1,24 @@
 <?php
-
+session_start();
 include '../include/db.php';
+
+// Function to check if the user is an admin
+function isAdmin() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
+// Function to check if the user is a customer
+function isCustomer() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'customer';
+}
+
 // ADD NEW CAR
 // =========================
 if (isset($_POST['save'])) {
-
+    if (!isAdmin()) {
+        header("Location: ../login.php");
+        exit();
+    }
     $name = $_POST['name'];
     $model = $_POST['model'];
     $price = $_POST['price'];
@@ -31,6 +45,10 @@ if (isset($_POST['save'])) {
 
 // DELETE CAR
 if (isset($_GET['delete'])) {
+    if (!isAdmin()) {
+        header("Location: ../login.php");
+        exit();
+    }
     $id = intval($_GET['delete']);
     mysqli_query($conn, "DELETE FROM cars WHERE id='$id'");
     echo "<script>alert('Car deleted successfully!'); window.location='cars.php';</script>";
@@ -39,6 +57,10 @@ if (isset($_GET['delete'])) {
 
 // UPDATE CAR
 if (isset($_POST['update'])) {
+    if (!isAdmin()) {
+        header("Location: ../login.php");
+        exit();
+    }
     $id = $_POST['id'];
     $name = $_POST['name'];
     $model = $_POST['model'];
@@ -81,33 +103,35 @@ include '../include/header.php';
 ?>
 
 <div class="container mt-4">
-    <h3 class="mb-3">Manage Cars</h3>
-    <?php if(isset($_GET['added']) && $_GET['added'] == 1): ?>
-        <div class="alert alert-success">New car added successfully!</div>
-    <?php endif; ?>
+    <h3 class="mb-3">Our Cars</h3>
+    <?php if(isAdmin()): ?>
+        <?php if(isset($_GET['added']) && $_GET['added'] == 1): ?>
+            <div class="alert alert-success">New car added successfully!</div>
+        <?php endif; ?>
 
-    <?php if(isset($_GET['added']) && $_GET['added'] == 0): ?>
-        <div class="alert alert-danger">Failed to add new car!</div>
-    <?php endif; ?>
+        <?php if(isset($_GET['added']) && $_GET['added'] == 0): ?>
+            <div class="alert alert-danger">Failed to add new car!</div>
+        <?php endif; ?>
 
-    <?php if(isset($_GET['updated']) && $_GET['updated'] == 1): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Car updated successfully!
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
+        <?php if(isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Car updated successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
 
-    <?php if(isset($_GET['updated']) && $_GET['updated'] == 0): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Update failed! Please try again.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
+        <?php if(isset($_GET['updated']) && $_GET['updated'] == 0): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Update failed! Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
 
-    <!-- Add Car Button -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCarModal" >
-        + Add New Car
-    </button>
+        <!-- Add Car Button -->
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCarModal" >
+            + Add New Car
+        </button>
+    <?php endif; ?>
 
     <div class="row">
         <?php while($car = mysqli_fetch_assoc($result)): ?>
@@ -123,7 +147,8 @@ include '../include/header.php';
                         <p><b>Status:</b> <?= $car['status'] ?></p>
                         <p><b>Rating:</b> ⭐ <?= $car['rating'] ?></p>
 
-                        <!-- Action Buttons -->
+                        <?php if(isAdmin()): ?>
+                        <!-- Admin Action Buttons -->
                         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $car['id'] ?>">
                             Edit
                         </button>
@@ -131,6 +156,12 @@ include '../include/header.php';
                         <a href="cars.php?delete=<?= $car['id'] ?>" 
                            onclick="return confirm('Delete this car?')"
                            class="btn btn-danger btn-sm">Delete</a>
+                        <?php endif; ?>
+
+                        <?php if(isCustomer()): ?>
+                            <!-- Customer Action Button -->
+                            <a href="bookings.php?car_id=<?= $car['id'] ?>&price=<?= $car['price'] ?>" class="btn btn-warning btn-sm">Book Now</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
